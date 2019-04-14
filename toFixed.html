@@ -1,0 +1,43 @@
+<script src="simpletest.js"></script>
+
+<script>
+
+
+function betterToFixed(value, precision){
+    value_decomposed = value.toString().split('.');
+    decimals = value_decomposed[1].split('');
+    console.log(decimals);
+    var new_decimal = decimals.reduce(function(accumulator, currentValue, currentIndex){
+        console.log(precision);
+        console.log('accumulator is ' + accumulator);
+        console.log('currentIndex is '+ currentIndex, 'currentValue is '+ currentValue );
+        if( currentIndex===precision ){
+            return accumulator+'.'+currentValue;
+        } else {
+            return accumulator + currentValue;
+        }
+    });
+    console.log(new_decimal);
+    var expandedValue=value_decomposed[0]+new_decimal;
+    console.log(expandedValue);
+    console.log(Math.round(expandedValue));
+    //Convert it back 
+    return Math.round(expandedValue)/Math.pow(10,precision);
+}
+
+
+
+tests({
+  'It should round up correctly': function(){
+    eq(betterToFixed(1.005,2), 1.01);
+  },
+  'It should round up correctly 2': function(){
+    eq(betterToFixed(0.615,2), 0.62);
+  }, 
+  'It should round up correctly 3': function(){
+    eq(betterToFixed(10.235,2), 10.24);
+  },
+
+  
+});
+</script>
